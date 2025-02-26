@@ -51,7 +51,8 @@ const loginAdmin = async (req, res) => {
         httpOnly: true,
         maxAge: 60 * 60 * 6,
         path: "/",
-        sameSite: "strict", // Ensure sameSite attribute is set
+        sameSite: "none", // Ensure sameSite attribute is set
+        secure: true, // Ensure secure attribute is set
       })
     );
 
