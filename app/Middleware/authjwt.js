@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const authenticateTokenWeb = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(" ")[1]; // Extract Bearer token
+  const token = req.cookies.token; 
 
   if (!token) {
     console.log("No token provided");
