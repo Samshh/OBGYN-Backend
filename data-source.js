@@ -5,7 +5,7 @@ const AppDataSource = new DataSource({
   host: "localhost",
   port: 3306,
   username: "sam",
-  password: "12345678",
+  password: "Samuel1234",
   database: "db_obgyn",
   synchronize: true,
   logging: true,
