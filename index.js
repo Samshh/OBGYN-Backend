@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: 'https://obgyn-frontend.vercel.app/', // Correct the origin to http
+  origin: 'https://obgyn-frontend.vercel.app', // Correct the origin to http
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
