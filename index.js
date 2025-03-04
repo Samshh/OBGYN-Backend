@@ -6,10 +6,12 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3000;
 
+app.use(cookieParser());
+
 app.use(cors({
   origin: 'https://obgyn-frontend.vercel.app', // Correct the origin to http
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
   credentials: true,
 }));
 
@@ -18,7 +20,6 @@ app.use(express.json());
 AppDataSource.initialize()
   .then(() => {
     console.log("Data Source has been initialized!");
-    app.use(cookieParser());
 
     // Routes
     app.use("/users", userRoutes); // Ensure this line is correct
