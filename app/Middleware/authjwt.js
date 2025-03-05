@@ -2,8 +2,6 @@ const jwt = require("jsonwebtoken");
 
 const authenticateTokenWeb = (req, res, next) => {
   const token = req.cookies.token;
-  console.log("Cookies on request:", token); 
-  res.send("Auth route works!");
 
   if (!token) {
     console.log("No token provided");
@@ -16,7 +14,7 @@ const authenticateTokenWeb = (req, res, next) => {
     const decoded = jwt.verify(token, "your_secret_key");
     req.user = decoded;
     console.log("Token is valid");
-    next(); // Call next() if token is valid
+    res.status(200).json({ message: "Token is valid." });
   } catch (ex) {
     console.log("Invalid token");
     res.status(401).json({ message: "Invalid token." });
