@@ -14,7 +14,7 @@ const authenticateTokenWeb = (req, res, next) => {
     const decoded = jwt.verify(token, "your_secret_key");
     req.user = decoded;
     console.log("Token is valid");
-    res.status(200).json({ message: "Token is valid." });
+    res.status(200).json(req.user);
   } catch (ex) {
     console.log("Invalid token");
     res.status(401).json({ message: "Invalid token." });
