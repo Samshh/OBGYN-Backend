@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cookieParser());
 
 app.use(cors({
-  origin: 'https://obgyn-frontend.vercel.app', // Correct the origin to http
+  origin: 'https://frontend.samshh.me', // Correct the origin to http
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
   credentials: true,
