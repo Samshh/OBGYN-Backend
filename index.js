@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cookieParser());
 
 app.use(cors({
-  origin: ['https://frontend.samshh.me', 'http://localhost:3000'], // Add multiple origins including localhost
+  origin: ['https://frontend.samshh.me', 'http://localhost:5173'], // Add multiple origins including localhost
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
   credentials: true,
