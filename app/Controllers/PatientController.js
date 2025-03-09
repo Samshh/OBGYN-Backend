@@ -30,7 +30,6 @@ const updateAppointment = async (req, res) => {
     });
     console.log("Updated appointment:", updatedAppointment);
     res.json(updatedAppointment);
-
   } catch (error) {
     console.error("Error updating appointment:", error);
     res.status(500).json({ error: "Database query failed" });
@@ -234,8 +233,8 @@ const getPatientRole = async (req, res) => {
 
 const updatePatient = async (req, res) => {
   try {
-    const { id } = req.params; // Correctly extract PatientID from req.params
-    const { EmailAddress, ...updateData } = req.body; // Destructure req.body to exclude PatientID
+    const { id } = req.params; // Extract PatientID from req.params
+    const updateData = req.body; // Include EmailAddress in updateData
 
     const user = await patientRepository.findOneBy({ PatientID: id });
 
@@ -243,22 +242,37 @@ const updatePatient = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const existingAdmin = await adminRepository.findOne({ where: { EmailAddress } });
-    if (existingAdmin && existingAdmin.AdminID !== user.AdminID) {
-      return res.status(400).json({ error: "Email is already used by another admin." });
-    }
-    
-    // Check if email is already used in Patient table
-    const existingPatient = await patientRepository.findOne({ where: { EmailAddress } });
-    if (existingPatient && existingPatient.PatientID !== user.PatientID) {
-      return res.status(400).json({ error: "Email is already used by another patient." });
+    // Handle email update if EmailAddress is provided
+    if (updateData.EmailAddress) {
+      updateData.EmailAddress = updateData.EmailAddress.toLowerCase(); // Store email in lowercase
+
+      // Check if email is already used in the admin table
+      const existingAdmin = await adminRepository.findOne({
+        where: { EmailAddress: updateData.EmailAddress },
+      });
+      if (existingAdmin && existingAdmin.AdminID !== user.AdminID) {
+        return res
+          .status(400)
+          .json({ error: "Email is already used by another admin." });
+      }
+
+      // Check if email is already used in the patient table
+      const existingPatient = await patientRepository.findOne({
+        where: { EmailAddress: updateData.EmailAddress },
+      });
+      if (existingPatient && existingPatient.PatientID !== user.PatientID) {
+        return res
+          .status(400)
+          .json({ error: "Email is already used by another patient." });
+      }
     }
 
-    await patientRepository.update(user.PatientID, updateData); // Update without PatientID
+    // Perform the update
+    await patientRepository.update(user.PatientID, updateData);
     const updatedUser = await patientRepository.findOneBy({ PatientID: id });
+
     res.json(updatedUser);
     console.log("Updated user: ", updatedUser);
-
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Database query failed" });
